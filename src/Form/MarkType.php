@@ -6,13 +6,14 @@ use App\Entity\Mark;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class MarkType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('stars')
+            ->add('stars', IntegerType::class)
             ->add('mark_user')
             ->add('mark_recipe')
         ;

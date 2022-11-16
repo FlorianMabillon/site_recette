@@ -5,18 +5,42 @@ namespace App\Form;
 use App\Entity\Recipe;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class RecipeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('recipe_name')
-            ->add('number_person')
-            ->add('preparation_time')
-            ->add('cooking_time')
-            ->add('picture')
+            ->add('recipe_name', TextType::class)
+            ->add('number_person', IntegerType::class)
+            ->add('preparation_time', IntegerType::class)
+            ->add('cooking_time', IntegerType::class)
+            ->add('picture', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize'=>'16384k',
+                        'maxSizeMessage'=>'Taille de fichier trop grande',
+                        'mimeTypes'=>[
+                            'image/jpeg',
+                            'image/png',
+                            'image/svg',
+                        ],
+                        'mimeTypesMessage'=>'Extension de fichier invalide',
+                    ])
+                    ],
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
+                'data_class'=>null,
+
+            ])
             ->add('recipe_user')
         ;
     }

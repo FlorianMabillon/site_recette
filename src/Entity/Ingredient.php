@@ -28,10 +28,17 @@ class Ingredient
      */
     private $ingredient_name;
 
-    /**
+   /**
      * @ORM\Column(type="string", length=75)
-     */
+     */ 
     private $quantity;
+
+    // /**
+    //  * Constructor
+    //  */ 
+    // public function __construct(){
+    //     $this->createdAt = new \Integer();
+    // }
 
     public function getId(): ?int
     {
