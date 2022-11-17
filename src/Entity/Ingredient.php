@@ -40,6 +40,10 @@ class Ingredient
     //     $this->createdAt = new \Integer();
     // }
 
+    public function __toString(){
+        return $this->ingredient_name; // Remplacer champ par une propriété "string" de l'entité
+    }
+    
     public function getId(): ?int
     {
         return $this->id;

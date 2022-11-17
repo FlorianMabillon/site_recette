@@ -28,6 +28,10 @@ class Step
      */
     private $step_recipe;
 
+    public function __toString(){
+        return $this->text; // Remplacer champ par une propriété "string" de l'entité
+    }
+
     public function getId(): ?int
     {
         return $this->id;

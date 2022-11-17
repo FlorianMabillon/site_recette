@@ -74,6 +74,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $user_mark;
 
+    public function __toString(){
+        return $this->pseudo; // Remplacer champ par une propriété "string" de l'entité
+    }
+
     public function __construct()
     {
         $this->user_recipe = new ArrayCollection();

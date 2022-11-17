@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Recipe;
+use App\Entity\Ingredient;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -41,6 +43,17 @@ class RecipeType extends AbstractType
                 'data_class'=>null,
 
             ])
+            
+            ->add('recipe_ingredient', EntityType::class, [
+                'label' => "Ingredient :",
+                'class' => Ingredient::class,
+                'choice_label'=> 'ingredient_name',
+                'multiple' => false,
+                'expanded' => true,
+                'mapped' => false,
+            ])
+            
+            ->add('recipe_step')
             ->add('recipe_user')
         ;
     }

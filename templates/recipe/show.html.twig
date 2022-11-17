@@ -29,7 +29,17 @@
             </tr>
             <tr>
                 <th>Picture</th>
-                <td>{{ recipe.picture }}</td>
+                <td><img src="{{app.request.basepath}}/uploads/images/{{recipe.picture}}"></td>
+            </tr>
+            <tr>
+                    <th>Ingredient</th>
+                {% for ingredient in recipe.recipeIngredient %}
+                    <td>{{ recipeIngredient.ingredientName }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>Step</th>
+                {# <td>{{ recipe.recipeStep }}</td> #}
             </tr>
         </tbody>
     </table>

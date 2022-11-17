@@ -70,6 +70,10 @@ class Recipe
      */
     private $picture;
 
+    public function __toString(){
+        return $this->recipe_name; // Remplacer champ par une propriété "string" de l'entité
+    }
+
     public function __construct()
     {
         $this->recipe_ingredient = new ArrayCollection();
