@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+
+<div>
+    <p>Pseudo : {{ user.pseudo }}</p>
+    <p>Adresse mail : {{ user.email }}</p>
+    <p>Genre : {{ user.gender }}</p>
+    <p>Date de naissance : {{ user.dateOfBirth | date('d/m/Y') }}</p>
+
+</div>
+
+<div>
+    <p>Historique des recettes :
+        {% for recipe in recipes %}
+            {{ recipe.recipeName }}
+        {% endfor %}
+    </p>
+
+</div>
+
+{% endblock %}

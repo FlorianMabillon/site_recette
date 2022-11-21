@@ -48,6 +48,8 @@ class RecipeController extends AbstractController
 
             $recipeRepository->add($recipe, true);
 
+                
+
             return $this->redirectToRoute('app_recipe_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -55,6 +57,8 @@ class RecipeController extends AbstractController
             'recipe' => $recipe,
             'form' => $form,
         ]);
+
+
     }
 
     /**
