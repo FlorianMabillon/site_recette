@@ -8,8 +8,7 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ recipe.id }}</td>
+                <td><img src="{{app.request.basepath}}/uploads/images/{{recipe.picture}}"></td>
             </tr>
             <tr>
                 <th>Recipe_name</th>
@@ -21,28 +20,33 @@
             </tr>
             <tr>
                 <th>Preparation_time</th>
-                <td>{{ recipe.preparationTime }}</td>
+                <td>{{ recipe.preparationTime }} min</td>
             </tr>
             <tr>
                 <th>Cooking_time</th>
-                <td>{{ recipe.cookingTime }}</td>
+                <td>{{ recipe.cookingTime }} min</td>
             </tr>
             <tr>
-                <th>Picture</th>
-                <td><img src="{{app.request.basepath}}/uploads/images/{{recipe.picture}}"></td>
-            </tr>
-            <tr>
-                    <th>Ingredient</th>
-                {% for ingredient in recipe.recipeIngredient %}
-                    <td>{{ recipeIngredient.ingredientName }}</td>
-                {% endfor %}
+                <th>Ingredient</th>
+                {# <td>{{ recipe.ingredientRecipe.ingredientName }}</td> #}
             </tr>
             <tr>
                 <th>Step</th>
-                {# <td>{{ recipe.recipeStep }}</td> #}
+
+            </tr>
+            <tr>
+                <th>Pseudo</th>
+                <td>{{ recipe.recipeUser.pseudo }}</td>
             </tr>
         </tbody>
     </table>
+
+    <div>
+        <h2>Commentaires</h2>
+        <h2>Ajouter un commentaire</h2>
+        {{ form(commentForm) }}
+    </div>
+
 
     <a href="{{ path('app_recipe_index') }}">back to list</a>
 

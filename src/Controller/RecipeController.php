@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Recipe;
+use App\Entity\Comment;
 use App\Form\RecipeType;
 use App\Service\FileUploader;
 use App\Repository\StepRepository;
+use App\Repository\UserRepository;
 use App\Repository\RecipeRepository;
 use App\Repository\IngredientRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,13 +23,22 @@ class RecipeController extends AbstractController
     /**
      * @Route("/", name="app_recipe_index", methods={"GET"})
      */
-    public function index(RecipeRepository $recipeRepository, StepRepository $stepRepository, IngredientRepository $ingredientRepository): Response
+    public function index(RecipeRepository $recipeRepository, StepRepository $stepRepository, IngredientRepository $ingredientRepository, UserRepository $userRepository, Request $request): Response
     {
         return $this->render('recipe/index.html.twig', [
             'recipes' => $recipeRepository->findAll(),
             'steps' => $stepRepository->findAll(),
             'ingredients' => $ingredientRepository->findAll(),
+            'users' => $userRepository->findAll(),
         ]);
+
+        // Partie commentaires
+        $comment = new Comment;
+
+        $commentForm = $this->createForm(CommentsType::class, $comment);
+
+        $commentForm->handleRequest($request);
+
     }
 
     /**
@@ -46,9 +57,9 @@ class RecipeController extends AbstractController
                 $recipe->setPicture($fileName);
                 }
 
+            $user=$this->getUser();
+            $recipe->setRecipeUser($user);
             $recipeRepository->add($recipe, true);
-
-                
 
             return $this->redirectToRoute('app_recipe_index', [], Response::HTTP_SEE_OTHER);
         }
