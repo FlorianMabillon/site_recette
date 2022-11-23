@@ -87,22 +87,27 @@ class RecipeController extends AbstractController
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
         
+        return $this->render('recipe/show.html.twig', [
+            'recipe' => $recipe,
+            'steps' => $stepRepository,
+            'ingredients' => $ingredientRepository,
+            'comments' => $commentRepository,
+            'comment_form' => $form->createView(),
+        ]);
+        
         if ($form->isSubmitted() && $form->isValid()) {
         $comment->setRecipe($recipe);
 
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
 
-            return $this->redirectToRoute('recipe', ['id' => $recipe->getId()]);
+        $user=$this->getUser();
+        $comment->setCommentUser($user);
+        $commentRepository->add($comment, true);
+
+            return $this->redirectToRoute('recipe', ['id' => $recipe->getId()], Response::HTTP_SEE_OTHER);
         }
 
-
-        return $this->render('recipe/show.html.twig', [
-            'recipe' => $recipe,
-            'steps' => $stepRepository,
-            'ingredients' => $ingredientRepository,
-            'comment_form' => $form->createView(),
-        ]);
    
     }
 

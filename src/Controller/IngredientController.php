@@ -37,6 +37,8 @@ class IngredientController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $ingredientRepository->add($ingredient, true);
 
+            
+
             return $this->redirectToRoute('app_ingredient_index', [], Response::HTTP_SEE_OTHER);
         }
 
