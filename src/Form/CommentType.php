@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CommentType extends AbstractType
 {
@@ -14,8 +15,9 @@ class CommentType extends AbstractType
     {
         $builder
             ->add('message', TextType::class)
-            ->add('comment_user')
-            ->add('comment_recipe')
+            ->add('submit', SubmitType::class)
+            // ->add('comment_user')
+            // ->add('comment_recipe')
         ;
     }
 

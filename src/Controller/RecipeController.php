@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 
+use Twig\Environment;
 use App\Entity\Recipe;
 use App\Entity\Comment;
 use App\Form\RecipeType;
+use App\Form\CommentType;
 use App\Service\FileUploader;
 use App\Repository\StepRepository;
 use App\Repository\UserRepository;
 use App\Repository\RecipeRepository;
+use App\Repository\CommentRepository;
 use App\Repository\IngredientRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +23,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  * @Route("/recipe")
  */
 class RecipeController extends AbstractController
-{
+{     
+    private $twig;
+    private $entityManager;
+
+    public function __construct(Environment $twig, EntityManagerInterface $entityManager)
+     {
+        
+        $this->twig = $twig;
+        $this->entityManager = $entityManager;
+     }
+
     /**
      * @Route("/", name="app_recipe_index", methods={"GET"})
      */
@@ -31,14 +45,6 @@ class RecipeController extends AbstractController
             'ingredients' => $ingredientRepository->findAll(),
             'users' => $userRepository->findAll(),
         ]);
-
-        // Partie commentaires
-        $comment = new Comment;
-
-        $commentForm = $this->createForm(CommentsType::class, $comment);
-
-        $commentForm->handleRequest($request);
-
     }
 
     /**
@@ -75,13 +81,29 @@ class RecipeController extends AbstractController
     /**
      * @Route("/{id}", name="app_recipe_show", methods={"GET"})
      */
-    public function show(Recipe $recipe, StepRepository $stepRepository, IngredientRepository $ingredientRepository ): Response
+    public function show(Recipe $recipe, StepRepository $stepRepository, IngredientRepository $ingredientRepository, Request $request, CommentRepository $commentRepository, EntityManagerInterface $entityManager ): Response
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+        $comment->setRecipe($recipe);
+
+        $this->entityManager->persist($comment);
+        $this->entityManager->flush();
+
+            return $this->redirectToRoute('recipe', ['id' => $recipe->getId()]);
+        }
+
+
         return $this->render('recipe/show.html.twig', [
             'recipe' => $recipe,
             'steps' => $stepRepository,
             'ingredients' => $ingredientRepository,
+            'comment_form' => $form->createView(),
         ]);
+   
     }
 
     /**
