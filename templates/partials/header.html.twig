@@ -1,19 +1,38 @@
 <header>
-    <div></div>
-    <div class="nav">
-        <nav>
-            <ul>
-                {% if app.user %}
-                    <li><a href="{{ path ('app_home') }} ">Accueil</a></li>
-                    {# <li><a href="{{ path ('app_') }} ">Ajouter une recette</a></li> #}
-                    {# <li><a href="{{ path ('app_') }} ">Mes recettes</a></li> #}
-                    <li><a href="{{ path ('app_logout') }} ">Déconnexion</a></li>
-                    <li><a href="{{ path ('app_user_profil') }} ">Profil</a></li>
-                {% else %}      
-                    <li><a href="{{ path ('app_register') }} ">Inscription</a></li>
-                    <li><a href="{{ path ('app_login') }} ">Connexion</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </div>
+	<div class="content_menu">
+        <div class="logo">
+            <img src="" alt="">
+        </div>
+		<div class="menu">
+			<nav>
+				<ul>
+					{% if app.user %}
+						<li>
+							<a href="{{ path ('app_home') }} ">Accueil</a>
+						</li>
+						{# <li><a href="{{ path ('app_') }} ">Ajouter une recette</a></li> #}
+						{# <li><a href="{{ path ('app_') }} ">Mes recettes</a></li> #}
+						<li>
+							<a href="{{ path ('app_logout') }} ">Déconnexion</a>
+						</li>
+						<li>
+							<a href="{{ path ('app_user_profil') }} ">Profil</a>
+						</li>
+					{% else %}
+						<li>
+							<a href="{{ path ('app_register') }} ">Inscription</a>
+						</li>
+						<li>
+							<a href="{{ path ('app_login') }} ">Connexion</a>
+						</li>
+					{% endif %}
+				</ul>
+			</nav>
+            <div class="profil">
+                <img src="" alt="">
+            </div>
+		</div>
+
+
+	</div>
 </header>

@@ -18,13 +18,14 @@ class CommentType extends AbstractType
             ->add('submit', SubmitType::class)
             // ->add('comment_user')
             // ->add('comment_recipe')
-        ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Comment::class,
-        ]);
-    }
+            ;
+        }
+        
+        public function configureOptions(OptionsResolver $resolver): void
+        {
+            $resolver->setDefaults([
+                'data_class' => Comment::class,
+            ]);
+        }
+        
 }

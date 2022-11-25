@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+<div class="content_home">
+	<nav class="form_research">
+		<input type="text" id="research" placeholder="Nom de la recette">
+		<button id="btn_research">Rechercher</button>
+	</nav>
+	<div class="content_home_card">
+		{% for recipe in recipes %}
+			<div class="home_card_recipe">
+				<img class="home_card_recipe_img" src="{{app.request.basepath}}/uploads/images/{{recipe.picture}}">
+				<h2>{{ recipe.recipeName }}
+				</h2>
+			</div>
+		{% endfor %}
+	</div>
+</div>
 {% endblock %}

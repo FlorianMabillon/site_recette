@@ -79,14 +79,14 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_recipe_show", methods={"GET"})
+     * @Route("/{id}", name="app_recipe_show", methods={"GET", "POST"})
      */
     public function show(Recipe $recipe, StepRepository $stepRepository, IngredientRepository $ingredientRepository, Request $request, CommentRepository $commentRepository, EntityManagerInterface $entityManager ): Response
     {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
-        
+
         return $this->render('recipe/show.html.twig', [
             'recipe' => $recipe,
             'steps' => $stepRepository,
@@ -95,20 +95,23 @@ class RecipeController extends AbstractController
             'comment_form' => $form->createView(),
         ]);
         
+        
         if ($form->isSubmitted() && $form->isValid()) {
         $comment->setRecipe($recipe);
-
+        $comment->setCommentUser($user);
+        
+        $commentRepository->add($comment, true);
+        
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
-
+        
         $user=$this->getUser();
-        $comment->setCommentUser($user);
-        $commentRepository->add($comment, true);
+
+        $this->addFlash('message', 'Votre commentaire a bien été envoyé');
 
             return $this->redirectToRoute('recipe', ['id' => $recipe->getId()], Response::HTTP_SEE_OTHER);
         }
-
-   
+        
     }
 
     /**
