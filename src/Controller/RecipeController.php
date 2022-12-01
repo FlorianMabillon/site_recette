@@ -84,35 +84,41 @@ class RecipeController extends AbstractController
     public function show(Recipe $recipe, StepRepository $stepRepository, IngredientRepository $ingredientRepository, Request $request, CommentRepository $commentRepository, EntityManagerInterface $entityManager ): Response
     {
         $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-
+        $commentForm = $this->createForm(CommentType::class, $comment);
+        $commentForm->handleRequest($request);
+        
         return $this->render('recipe/show.html.twig', [
             'recipe' => $recipe,
-            'steps' => $stepRepository,
-            'ingredients' => $ingredientRepository,
-            'comments' => $commentRepository,
-            'comment_form' => $form->createView(),
+            // 'step' => $stepRepository,
+            // 'ingredient' => $ingredientRepository,
+            // 'comment' => $commentRepository,
+            // 'comment_form' => $commentForm->createView(),
         ]);
         
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-        $comment->setRecipe($recipe);
-        $comment->setCommentUser($user);
-        
-        $commentRepository->add($comment, true);
-        
-        $this->entityManager->persist($comment);
-        $this->entityManager->flush();
-        
-        $user=$this->getUser();
+        //     if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            //         dump("$comment");
+    //     $comment->setRecipe($recipe);
+    //     $comment->setCommentUser($user);
+    
+    //     $commentRepository->add($comment, true);
+    
+    //     $this->entityManager->persist($comment);
+    //     $this->entityManager->flush();
+    
+    //     $user=$this->getUser();
+    
+    
+    //     $this->addFlash('message', 'Votre commentaire a bien été envoyé');
+    
+    //         return $this->redirectToRoute('recipe', ['id' => 'app_recipe_show'->getId()], Response::HTTP_SEE_OTHER);
+    // }
 
-        $this->addFlash('message', 'Votre commentaire a bien été envoyé');
-
-            return $this->redirectToRoute('recipe', ['id' => $recipe->getId()], Response::HTTP_SEE_OTHER);
-        }
-        
-    }
+    // $response = $this->forward('App\Controller\CommentController::new', [
+    //     'comment' => $comment,
+    // ]);
+    
+    // return $response;
+}
 
     /**
      * @Route("/{id}/edit", name="app_recipe_edit", methods={"GET", "POST"})

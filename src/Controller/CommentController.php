@@ -40,7 +40,7 @@ class CommentController extends AbstractController
             $comment->setCommentUser($user);
             $commentRepository->add($comment, true);
 
-            
+
             $this->addFlash('message', 'Votre commentaire a bien été envoyé');
 
             return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
